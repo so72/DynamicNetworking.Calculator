@@ -53,6 +53,7 @@ public class Calculator extends JFrame {
        
        eq.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent event) {
+               System.out.println("test");
                //what to do when equals button is pressed
           }
        });
