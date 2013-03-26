@@ -18,18 +18,18 @@ public class OperationsServer {
     {
     	Properties prop = new Properties();
  
-    	try {
+    	//try {
                //load a properties file
-    		prop.load(new FileInputStream("OperationsServer.properties"));
+    	//	prop.load(new FileInputStream("OperationsServer.properties"));
  
                //get the property value and save
                 System.out.println(prop.getProperty("CLASS_ROOT_DIRECTORY"));
     		System.out.println(prop.getProperty("HOST"));
     		System.out.println(prop.getProperty("PORT"));
  
-    	} catch (IOException ex) {
-    		ex.printStackTrace();
-        }
+    	//} //catch (IOException ex) {
+    	//	ex.printStackTrace();
+        //}
  
     }
     
@@ -37,6 +37,13 @@ public class OperationsServer {
     
     public Object getOperation(String operationString)
     {
+        Object connection = new Object();
+        switch (operationString)
+        {
+            case "+": connection.getClass();
+                      break;
+        }
+        
         if(operationString.equals("*") ||
            operationString.equals("/") ||
            operationString.equals("+") ||

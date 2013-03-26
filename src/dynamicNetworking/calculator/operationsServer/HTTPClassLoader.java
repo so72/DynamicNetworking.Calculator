@@ -9,11 +9,14 @@ package dynamicNetworking.calculator.operationsServer;
  * @author steffen
  */
 public class HTTPClassLoader extends ClassLoader {
+    
+    
+    
     public Class findClass(String className)
     {
         return null;
     }
-    public Class loadClassData(String className)
+    public byte[] loadClassData(String className)
     {
         return null;
     }
