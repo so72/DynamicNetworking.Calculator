@@ -37,10 +37,10 @@ public class OperationsServer {
     
     public Object getOperation(String operationString)
     {
-        if(operationString == "*" ||
-           operationString == "/" ||
-           operationString == "+" ||
-           operationString == "-")
+        if(operationString.equals("*") ||
+           operationString.equals("/") ||
+           operationString.equals("+") ||
+           operationString.equals("-"))
         {
             return operationString;
         }
