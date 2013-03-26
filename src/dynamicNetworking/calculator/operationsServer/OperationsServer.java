@@ -65,9 +65,12 @@ public class OperationsServer {
                 op = (Operation) knownClasses.get(operationString).newInstance();
             } else {
                 String opName = prop.getProperty(operationString);
+                
                 if (opName == null) {
-                    throw new UnknownOperationException();
+                    throw new UnknownOperationException("Operation: " +
+                            operationString + " is not known");
                 }
+                
                 Class opClass = classLoader.findClass(opName);
                 op = (Operation) opClass.newInstance();
                 

@@ -10,4 +10,7 @@ package dynamicNetworking.calculator.operationsServer;
  */
 public class UnknownOperationException extends Exception {
     
+    public UnknownOperationException(String message) {
+        super(message);
+    }
 }
