@@ -55,14 +55,20 @@ public class OperationsServer {
         classLoader = new HTTPClassLoader(rootDirectory, host, portNum);
     }
 
-    public Operation getOperation(String operationString) {
+    public Operation getOperation(String operationString) 
+        throws UnknownOperationException 
+    {
         Operation op = null;
         try {
             if (knownClasses.get(operationString) != null) {
                 // we already know this operation. Don't ask server for it!
                 op = (Operation) knownClasses.get(operationString).newInstance();
             } else {
-                Class opClass = classLoader.findClass(operationString);
+                String opName = prop.getProperty(operationString);
+                if (opName == null) {
+                    throw new UnknownOperationException();
+                }
+                Class opClass = classLoader.findClass(opName);
                 op = (Operation) opClass.newInstance();
                 
                 // Stash this class
