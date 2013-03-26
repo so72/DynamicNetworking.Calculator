@@ -6,11 +6,7 @@ package dynamicNetworking.calculator.operationsServer;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
