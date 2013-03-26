@@ -4,12 +4,37 @@
  */
 package dynamicNetworking.calculator.operationsServer;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
+
 /**
  *
  * @author steffen
  */
 public class OperationsServer {
  
+    public static void main( String[] args )
+    {
+    	Properties prop = new Properties();
+ 
+    	try {
+               //load a properties file
+    		prop.load(new FileInputStream("OperationsServer.properties"));
+ 
+               //get the property value and save
+                System.out.println(prop.getProperty("CLASS_ROOT_DIRECTORY"));
+    		System.out.println(prop.getProperty("HOST"));
+    		System.out.println(prop.getProperty("PORT"));
+ 
+    	} catch (IOException ex) {
+    		ex.printStackTrace();
+        }
+ 
+    }
+    
+    
+    
     public Object getOperation(String operationString)
     {
         if(operationString == "*" ||
@@ -25,4 +50,5 @@ public class OperationsServer {
             return null;
         }
     }
+   
 }
