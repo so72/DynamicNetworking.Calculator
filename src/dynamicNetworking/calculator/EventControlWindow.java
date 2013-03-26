@@ -4,10 +4,12 @@
  */
 package dynamicNetworking.calculator;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author steffen
  */
-public class EventControlWindow {
+public class EventControlWindow extends JFrame{
     
 }
