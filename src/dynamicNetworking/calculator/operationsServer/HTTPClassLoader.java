@@ -16,7 +16,11 @@ public class HTTPClassLoader extends ClassLoader {
     
     private Socket server;
     
-    public HTTPClassLoader(String host, int port) {
+    private String rootDirectory;
+    
+    public HTTPClassLoader(String rootDirectory, String host, int port) {
+        this.rootDirectory = rootDirectory;
+        
         try {
             server = new Socket(host, port);
         } catch (UnknownHostException ex) {

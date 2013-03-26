@@ -6,6 +6,7 @@ package dynamicNetworking.calculator.operationsServer;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Properties;
 
 /**
@@ -16,6 +17,8 @@ public class OperationsServer {
    
     private Properties prop;
     private HTTPClassLoader classLoader;
+    
+    private HashMap<String, Class> knownClasses;
 
     public OperationsServer() {
         this("OperationsServer.properties");
@@ -23,6 +26,7 @@ public class OperationsServer {
 
     public OperationsServer(String propFile) {
         prop = new Properties();
+        knownClasses = new HashMap<>();
 
         try {
             //load a properties file
@@ -48,18 +52,27 @@ public class OperationsServer {
         
         int portNum = Integer.parseInt(port);
         
-        classLoader = new HTTPClassLoader(host, portNum);
+        classLoader = new HTTPClassLoader(rootDirectory, host, portNum);
     }
 
-    public Object getOperation(String operationString) {
-        if (operationString.equals("*")
-                || operationString.equals("/")
-                || operationString.equals("+")
-                || operationString.equals("-")) {
-            return operationString;
-        } else {
-            System.out.println("not an operation");
-            return null;
+    public Operation getOperation(String operationString) {
+        Operation op = null;
+        try {
+            if (knownClasses.get(operationString) != null) {
+                // we already know this operation. Don't ask server for it!
+                op = (Operation) knownClasses.get(operationString).newInstance();
+            } else {
+                Class opClass = classLoader.findClass(operationString);
+                op = (Operation) opClass.newInstance();
+                
+                // Stash this class
+                knownClasses.put(operationString, opClass);
+            }
+        } catch (InstantiationException e) {
+            System.err.println("Instantiation Exception!!!");
+        } catch (IllegalAccessException e) {
+            System.err.println("IllegalAccessException!!!");
         }
+        return op;
     }
 }
