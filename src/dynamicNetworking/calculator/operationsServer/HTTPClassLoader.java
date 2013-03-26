@@ -14,6 +14,17 @@ import java.net.UnknownHostException;
  */
 public class HTTPClassLoader extends ClassLoader {
     
+<<<<<<< HEAD
+    
+    
+    public Class findClass(String className)
+    {
+        return null;
+    }
+    public byte[] loadClassData(String className)
+    {
+        return null;
+=======
     Socket server;
 
     public HTTPClassLoader(String host, int port) {
@@ -37,5 +48,6 @@ public class HTTPClassLoader extends ClassLoader {
         // TODO: get bytecode from server.
         
         return bytes;
+>>>>>>> 1ff05f7b594b7c5586632a1e1c2b010df6b400c7
     }
 }
