@@ -8,7 +8,7 @@ package dynamicNetworking.calculator.operationsServer;
  *
  * @author steffen
  */
-public class HTTPClassLoader {
+public class HTTPClassLoader extends ClassLoader {
     public Class findClass(String className)
     {
         return null;
