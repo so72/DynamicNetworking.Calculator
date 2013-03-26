@@ -9,5 +9,12 @@ package dynamicNetworking.calculator.operationsServer;
  * @author steffen
  */
 public class HTTPClassLoader {
-    
+    public Class findClass(String className)
+    {
+        return null;
+    }
+    public Class loadClassData(String className)
+    {
+        return null;
+    }
 }
