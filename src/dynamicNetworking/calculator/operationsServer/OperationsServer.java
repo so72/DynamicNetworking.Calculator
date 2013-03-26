@@ -52,13 +52,7 @@ public class OperationsServer {
         
         int portNum = Integer.parseInt(port);
         
-        try {
-            classLoader = new HTTPClassLoader(new Socket(host, portNum));
-        } catch (UnknownHostException ex) {
-            System.err.println("Unknown host: " + host);
-        } catch (IOException ex) {
-            System.err.println("IOException creating socket");
-        }
+        classLoader = new HTTPClassLoader(host, portNum);
     }
 
     public Object getOperation(String operationString) {

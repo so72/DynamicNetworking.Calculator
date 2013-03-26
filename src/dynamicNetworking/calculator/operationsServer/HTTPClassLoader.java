@@ -4,7 +4,9 @@
  */
 package dynamicNetworking.calculator.operationsServer;
 
+import java.io.IOException;
 import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  *
@@ -14,8 +16,14 @@ public class HTTPClassLoader extends ClassLoader {
     
     Socket server;
 
-    public HTTPClassLoader(Socket server) {
-        this.server = server;
+    public HTTPClassLoader(String host, int port) {
+        try {
+            server = new Socket(host, port);
+        } catch (UnknownHostException ex) {
+            System.err.println("Unknown host: " + host);
+        } catch (IOException ex) {
+            System.err.println("IOException creating socket");
+        }
     }
 
     @Override
