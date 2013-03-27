@@ -64,6 +64,7 @@ public class HTTPClassLoader extends ClassLoader {
         byte[] bytes = null;
         
         sendRequest(className);
+        bytes = readResponse();
         /*os.reset();
         os.writeObject(new ResourceRequest(className, "CLASS"));
         os.flush();
