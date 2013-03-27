@@ -70,12 +70,20 @@ public class Calculator extends JFrame {
                     {
                         Float o1 = Float.valueOf(op1.getText());
                         Float o2 = Float.valueOf(op2.getText());
-                        Float servAnswer = server.getOperation(oper.getText()).compute(o1,o2);
-                        answer.setText(servAnswer.toString());
+                        String op = oper.getText();
+                        if(op.matches("[\\+\\-\\*\\/]"))
+                        {
+                            Float servAnswer = server.getOperation(op).compute(o1,o2);
+                            answer.setText(servAnswer.toString());
+                        }
+                        else
+                        {
+                            answer.setText("NaN");
+                        }
                     }
                     else
                     {
-                        answer.setText("nan");
+                        answer.setText("NaN");
                     }
                     
                 } catch (UnknownOperationException ex) {
