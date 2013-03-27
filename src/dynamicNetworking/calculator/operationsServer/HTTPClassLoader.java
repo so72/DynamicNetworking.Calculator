@@ -18,6 +18,10 @@ public class HTTPClassLoader extends ClassLoader {
     
     private String rootDirectory;
     
+    private ObjectInputStream is = null;
+    
+	private ObjectOutputStream os = null;
+    
     public HTTPClassLoader(String rootDirectory, String host, int port) {
         this.rootDirectory = rootDirectory;
         
@@ -37,9 +41,17 @@ public class HTTPClassLoader extends ClassLoader {
     }
 
     public byte[] loadClassData(String className) {
+    
         byte[] bytes = null;
-        // TODO: get bytecode from server.
+        
+        os.reset();
+        os.writeObject(new ResourceRequest(className, "CLASS"));
+        os.flush();
+        
+        ResourcePacket resourcePacket = (ResourcePacket) is.readObject();
+        bytes = resourcePacket.getResourceBytes();
         
         return bytes;
+        
     }
 }
