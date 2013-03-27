@@ -86,6 +86,7 @@ public class HTTPClassLoader extends ClassLoader {
         
         try {
             
+            // create a buffer big enough to fit large responses
             byte[] buffer = new byte[10000];
             
             int result = inputStream.read(buffer, 0, buffer.length);
@@ -94,14 +95,18 @@ public class HTTPClassLoader extends ClassLoader {
                 System.exit(1);
             }
             
+            // Get the actual result from the buffer
             byte[] response = Arrays.copyOfRange(buffer, 0, result);
             String responseString = new String(response, 0, result);
             
+            // parse for Content-Length: so we know how many bytes the class is
             StringTokenizer tokenizer = new StringTokenizer(responseString);
             while (!tokenizer.nextToken().equals("Content-Length:")) {
             }
             int size = Integer.parseInt(tokenizer.nextToken());
             
+            // result - size will be the start of the class in the response
+            // grab from there to the end. This is the class bytecode.
             bytes = Arrays.copyOfRange(response, result - size, result);
             
             System.out.println(new String(bytes, 0, bytes.length));
