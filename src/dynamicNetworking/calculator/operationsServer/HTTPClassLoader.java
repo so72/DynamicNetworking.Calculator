@@ -7,15 +7,13 @@ package dynamicNetworking.calculator.operationsServer;
 import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.StringTokenizer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -55,7 +53,7 @@ public class HTTPClassLoader extends ClassLoader {
     @Override
     public Class findClass(String className) {
         byte[] bytes = loadClassData(className);
-        return defineClass("Addition.class", bytes, 0, bytes.length);
+        return defineClass(null, bytes, 0, bytes.length);
     }
 
     public byte[] loadClassData(String className) {
@@ -63,17 +61,12 @@ public class HTTPClassLoader extends ClassLoader {
         
         sendRequest(className);
         bytes = readResponse();
-        /*os.reset();
-        os.writeObject(new ResourceRequest(className, "CLASS"));
-        os.flush();
-        
-        ResourcePacket resourcePacket = (ResourcePacket) is.readObject();
-        bytes = resourcePacket.getResourceBytes();*/
         
         return bytes;
     }
     
     private void sendRequest(String className) {
+        
         writer.println("GET " + rootDirectory + className + " HTTP/1.0");
         writer.println("host: " + host);
         writer.println();
@@ -81,54 +74,33 @@ public class HTTPClassLoader extends ClassLoader {
     
     private byte[] readResponse() {
         byte[] bytes = null;
-        int size;
         
         try {
-            reader = new BufferedReader(
-                    new InputStreamReader(server.getInputStream()));
-            if (!reader.readLine().startsWith("HTTP/1.1 200")) {
-                return null;
-                // should probably do something other than return null
-            }
-            //date
-            System.out.println(reader.readLine());
-            //server
-            System.out.println(reader.readLine());
-            //last-modified
-            System.out.println(reader.readLine());
-            //accept-ranges
-            System.out.println(reader.readLine());
-            // should theoretically be the content length
-            String contentLength = reader.readLine();
-            System.out.println(contentLength);
-            StringTokenizer tokenizer = new StringTokenizer(contentLength);
-            if (!tokenizer.nextToken().equals("Content-Length:")) {
-                System.err.println("Something went wrong with the response");
-            }
-            size = Integer.parseInt(tokenizer.nextToken());
-            // cache-control
-            System.out.println(reader.readLine());
-            // expiration
-            System.out.println(reader.readLine());
-            // vary
-            System.out.println(reader.readLine());
-            // connection
-            System.out.println(reader.readLine());
-            // content-type
-            System.out.println(reader.readLine());
+            inputStream = new DataInputStream(server.getInputStream());
             
+            byte[] buffer = new byte[10000];
             
-            System.out.println("initializing bytes to size: " + size);
-            bytes = new byte[size];
-            
-            int result = reader.read(bytes, 0, size);
-            System.out.println("bytes: " + new String(bytes, 0, size));
+            int result = inputStream.read(buffer, 0, buffer.length);
             if (result == -1) {
-                System.err.println("Failed to read bytes");
+                System.err.println("Failed to read input!");
+                System.exit(1);
             }
-            reader.close();
+            
+            byte[] response = Arrays.copyOfRange(buffer, 0, result);
+            String responseString = new String(response, 0, result);
+            
+            StringTokenizer tokenizer = new StringTokenizer(responseString);
+            while (!tokenizer.nextToken().equals("Content-Length:")) {
+            }
+            int size = Integer.parseInt(tokenizer.nextToken());
+            
+            bytes = Arrays.copyOfRange(response, result - size, result);
+            
+            System.out.println(new String(bytes, 0, bytes.length));
+            inputStream.close();
         } catch (IOException ex) {
             System.err.println("Failed to readLine");
+            ex.printStackTrace();
         }
         
         return bytes;
