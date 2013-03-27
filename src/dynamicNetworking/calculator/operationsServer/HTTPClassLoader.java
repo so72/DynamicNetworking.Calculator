@@ -24,6 +24,7 @@ public class HTTPClassLoader extends ClassLoader {
     private Socket server;
     
     private String host;
+    private int port;
     private String rootDirectory;
     
     private PrintWriter writer;
@@ -37,7 +38,17 @@ public class HTTPClassLoader extends ClassLoader {
     public HTTPClassLoader(String rootDirectory, String host, int port) {
         this.rootDirectory = rootDirectory;
         this.host = host;
-        
+        this.port = port;
+    }
+
+    @Override
+    public Class findClass(String className) {
+        byte[] bytes = loadClassData(className);
+        return defineClass(null, bytes, 0, bytes.length);
+    }
+
+    public byte[] loadClassData(String className) {
+        byte[] bytes = null;
         try {
             server = new Socket(host, port);
             
@@ -49,20 +60,17 @@ public class HTTPClassLoader extends ClassLoader {
             System.err.println("IOException creating socket");
             ex.printStackTrace();
         }
-    }
-
-    @Override
-    public Class findClass(String className) {
-        byte[] bytes = loadClassData(className);
-        return defineClass(null, bytes, 0, bytes.length);
-    }
-
-    public byte[] loadClassData(String className) {
-        byte[] bytes = null;
         
         sendRequest(className);
         bytes = readResponse();
         
+        try {
+            writer.close();
+            inputStream.close();
+            server.close();
+        } catch (IOException ex) {
+            System.err.println("Failed to close stream or socket");
+        }
         return bytes;
     }
     
