@@ -23,6 +23,7 @@ public class Calculator extends JFrame {
 
     public final void initUI() {
 
+        //create the panels for everything
        JPanel panel = new JPanel();
        JPanel left = new JPanel();
        JPanel middle = new JPanel();
@@ -31,6 +32,7 @@ public class Calculator extends JFrame {
        JButton quitButton = new JButton("Quit");
        JButton eq = new JButton("=");
        
+       //add the panels of the calculator from left to right
        panel.add(left);
        panel.add(middle);
        panel.add(right);
@@ -39,11 +41,13 @@ public class Calculator extends JFrame {
        panel.add(quitButton);
        getContentPane().add(panel);
        
+       //startoff variables
        final JTextField op1 = new JTextField("0");
        final JTextField op2 = new JTextField("0");
        final JTextField oper = new JTextField("+");
        final JLabel answer = new JLabel("0");
        
+       //add in the dummy variables
        left.add(op1);
        middle.add(oper);
        right.add(op2);
@@ -57,6 +61,7 @@ public class Calculator extends JFrame {
           }
        });
        
+       //action for whenever equal button is pressed
        eq.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent event) {
                 
@@ -68,6 +73,8 @@ public class Calculator extends JFrame {
                 }
           }
        });
+       
+       //window properties
        setTitle("Java Calculator");
        setSize(300, 200);
        setLocationRelativeTo(null);
