@@ -42,6 +42,7 @@ public class HTTPClassLoader extends ClassLoader {
             server = new Socket(host, port);
             
             writer = new PrintWriter(server.getOutputStream(), true);
+            inputStream = new DataInputStream(server.getInputStream());
         } catch (UnknownHostException ex) {
             System.err.println("Unknown host: " + host);
         } catch (IOException ex) {
@@ -76,7 +77,6 @@ public class HTTPClassLoader extends ClassLoader {
         byte[] bytes = null;
         
         try {
-            inputStream = new DataInputStream(server.getInputStream());
             
             byte[] buffer = new byte[10000];
             
@@ -97,7 +97,6 @@ public class HTTPClassLoader extends ClassLoader {
             bytes = Arrays.copyOfRange(response, result - size, result);
             
             System.out.println(new String(bytes, 0, bytes.length));
-            inputStream.close();
         } catch (IOException ex) {
             System.err.println("Failed to readLine");
             ex.printStackTrace();

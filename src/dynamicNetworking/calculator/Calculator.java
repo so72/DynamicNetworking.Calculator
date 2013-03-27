@@ -61,7 +61,7 @@ public class Calculator extends JFrame {
            public void actionPerformed(ActionEvent event) {
                 
                 try {
-                    Float servAnswer = server.getOperation(oper.getText()).compute(Float.parseFloat(op1.getText()),Float.parseFloat(op1.getText()) );
+                    Float servAnswer = server.getOperation(oper.getText()).compute(Float.parseFloat(op1.getText()),Float.parseFloat(op2.getText()) );
                     answer.setText(servAnswer.toString());
                 } catch (UnknownOperationException ex) {
                     Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
