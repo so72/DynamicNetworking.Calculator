@@ -44,9 +44,6 @@ public class HTTPClassLoader extends ClassLoader {
             server = new Socket(host, port);
             
             writer = new PrintWriter(server.getOutputStream(), true);
-            reader = new BufferedReader(
-                    new InputStreamReader(server.getInputStream()));
-            inputStream = new DataInputStream(server.getInputStream());
         } catch (UnknownHostException ex) {
             System.err.println("Unknown host: " + host);
         } catch (IOException ex) {
@@ -58,7 +55,7 @@ public class HTTPClassLoader extends ClassLoader {
     @Override
     public Class findClass(String className) {
         byte[] bytes = loadClassData(className);
-        return defineClass(className, bytes, 0, bytes.length);
+        return defineClass("Addition.class", bytes, 0, bytes.length);
     }
 
     public byte[] loadClassData(String className) {
@@ -77,10 +74,9 @@ public class HTTPClassLoader extends ClassLoader {
     }
     
     private void sendRequest(String className) {
-        System.out.println("Sending Request!");
-        writer.print("GET /" + rootDirectory + className + " HTTP/1.0\r\n");
-        writer.print(host + "\r\n");
-        writer.print("\r\n");
+        writer.println("GET " + rootDirectory + className + " HTTP/1.0");
+        writer.println("host: " + host);
+        writer.println();
     }
     
     private byte[] readResponse() {
@@ -88,32 +84,49 @@ public class HTTPClassLoader extends ClassLoader {
         int size;
         
         try {
-            System.out.println(reader.readLine());
-            if (!reader.readLine().startsWith("HTTP/1.0 200")) {
-                System.out.println("Got here");
+            reader = new BufferedReader(
+                    new InputStreamReader(server.getInputStream()));
+            if (!reader.readLine().startsWith("HTTP/1.1 200")) {
                 return null;
                 // should probably do something other than return null
             }
             //date
             System.out.println(reader.readLine());
             //server
-            reader.readLine();
+            System.out.println(reader.readLine());
+            //last-modified
+            System.out.println(reader.readLine());
+            //accept-ranges
+            System.out.println(reader.readLine());
             // should theoretically be the content length
             String contentLength = reader.readLine();
+            System.out.println(contentLength);
             StringTokenizer tokenizer = new StringTokenizer(contentLength);
-            if (!tokenizer.nextToken().equals("Content-Length")) {
+            if (!tokenizer.nextToken().equals("Content-Length:")) {
                 System.err.println("Something went wrong with the response");
             }
             size = Integer.parseInt(tokenizer.nextToken());
+            // cache-control
+            System.out.println(reader.readLine());
+            // expiration
+            System.out.println(reader.readLine());
+            // vary
+            System.out.println(reader.readLine());
+            // connection
+            System.out.println(reader.readLine());
             // content-type
-            reader.readLine();
+            System.out.println(reader.readLine());
             
+            
+            System.out.println("initializing bytes to size: " + size);
             bytes = new byte[size];
             
-            int result = inputStream.read(bytes);
+            int result = reader.read(bytes, 0, size);
+            System.out.println("bytes: " + new String(bytes, 0, size));
             if (result == -1) {
                 System.err.println("Failed to read bytes");
             }
+            reader.close();
         } catch (IOException ex) {
             System.err.println("Failed to readLine");
         }
