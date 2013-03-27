@@ -6,7 +6,7 @@ package dynamicNetworking.calculator;
 
 /**
  *
- * @author steffen
+ * @author steffen, mark, shane
  */
 public class EventControlText {
     

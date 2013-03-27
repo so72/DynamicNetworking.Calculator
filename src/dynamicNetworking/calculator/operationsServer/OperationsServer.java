@@ -4,14 +4,13 @@
  */
 package dynamicNetworking.calculator.operationsServer;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Properties;
 
 /**
  *
- * @author steffen
+ * @author steffen, mark, shane
  */
 public class OperationsServer {
    

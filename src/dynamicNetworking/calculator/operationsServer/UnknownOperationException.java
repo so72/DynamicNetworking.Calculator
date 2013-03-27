@@ -6,7 +6,7 @@ package dynamicNetworking.calculator.operationsServer;
 
 /**
  *
- * @author steffen
+ * @author steffen, mark, shane
  */
 public class UnknownOperationException extends Exception {
     

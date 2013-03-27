@@ -6,7 +6,7 @@ package dynamicNetworking.calculator.operationsServer;
 
 /**
  *
- * @author steffen
+ * @author steffen, mark, shane
  */
 public interface Operation {
     public float compute(float op1, float op2);

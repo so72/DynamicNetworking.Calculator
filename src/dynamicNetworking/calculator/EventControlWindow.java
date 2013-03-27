@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 
 /**
  *
- * @author steffen
+ * @author steffen, mark, shane
  */
 public class EventControlWindow extends JFrame{
     

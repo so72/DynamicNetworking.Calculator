@@ -17,7 +17,7 @@ import java.util.StringTokenizer;
 
 /**
  *
- * @author steffen
+ * @author steffen, mark, shane
  */
 public class HTTPClassLoader extends ClassLoader {
     
@@ -109,7 +109,8 @@ public class HTTPClassLoader extends ClassLoader {
             // grab from there to the end. This is the class bytecode.
             bytes = Arrays.copyOfRange(response, result - size, result);
             
-            System.out.println(new String(bytes, 0, bytes.length));
+            //the class \/
+            //System.out.println(new String(bytes, 0, bytes.length));
         } catch (IOException ex) {
             System.err.println("Failed to readLine");
             ex.printStackTrace();

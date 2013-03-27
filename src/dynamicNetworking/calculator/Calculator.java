@@ -12,7 +12,7 @@ import java.util.logging.Logger;
 import javax.swing.*;
 /**
  *
- * @author steffen
+ * @author steffen, mark, shane
  */
 public class Calculator extends JFrame {
     OperationsServer server = new OperationsServer();
@@ -66,8 +66,18 @@ public class Calculator extends JFrame {
            public void actionPerformed(ActionEvent event) {
                 
                 try {
-                    Float servAnswer = server.getOperation(oper.getText()).compute(Float.parseFloat(op1.getText()),Float.parseFloat(op2.getText()) );
-                    answer.setText(servAnswer.toString());
+                    if((op1.getText().matches("\\d+")) && (op2.getText().matches("\\d+")))
+                    {
+                        Float o1 = Float.valueOf(op1.getText());
+                        Float o2 = Float.valueOf(op2.getText());
+                        Float servAnswer = server.getOperation(oper.getText()).compute(o1,o2);
+                        answer.setText(servAnswer.toString());
+                    }
+                    else
+                    {
+                        answer.setText("nan");
+                    }
+                    
                 } catch (UnknownOperationException ex) {
                     Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
                 }
