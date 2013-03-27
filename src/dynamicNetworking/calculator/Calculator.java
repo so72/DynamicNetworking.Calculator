@@ -3,15 +3,19 @@
  * and open the template in the editor.
  */
 package dynamicNetworking.calculator;
+import dynamicNetworking.calculator.operationsServer.OperationsServer;
+import dynamicNetworking.calculator.operationsServer.UnknownOperationException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 /**
  *
  * @author steffen
  */
 public class Calculator extends JFrame {
-    public Calculator() {
+    public Calculator() {   
         initUI();
     }
 
@@ -53,8 +57,13 @@ public class Calculator extends JFrame {
        
        eq.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent event) {
-               System.out.println("test");
-               //what to do when equals button is pressed
+                OperationsServer newOp = new OperationsServer();
+                try {
+                    newOp.getOperation("+");
+                    //what to do when equals button is pressed
+                } catch (UnknownOperationException ex) {
+                    Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
+                }
           }
        });
        setTitle("Java Calculator");
