@@ -37,10 +37,10 @@ public class Calculator extends JFrame {
        panel.add(quitButton);
        getContentPane().add(panel);
        
-       JTextField op1 = new JTextField("0");
-       JTextField op2 = new JTextField("0");
-       JTextField oper = new JTextField("+");
-       JLabel answer = new JLabel("0");
+       final JTextField op1 = new JTextField("0");
+       final JTextField op2 = new JTextField("0");
+       final JTextField oper = new JTextField("+");
+       final JLabel answer = new JLabel("0");
        
        left.add(op1);
        middle.add(oper);
@@ -59,8 +59,7 @@ public class Calculator extends JFrame {
            public void actionPerformed(ActionEvent event) {
                 OperationsServer newOp = new OperationsServer();
                 try {
-                    newOp.getOperation("+");
-                    //what to do when equals button is pressed
+                    newOp.getOperation(oper.getText());
                 } catch (UnknownOperationException ex) {
                     Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
                 }
