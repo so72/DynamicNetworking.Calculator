@@ -30,7 +30,7 @@ public class OperationsServer {
 
         try {
             //load a properties file
-            prop.load(new FileInputStream(propFile));
+            prop.load(this.getClass().getResourceAsStream(propFile));
         } catch (IOException ex) {
             System.err.println("Failed to open properties file.");
         }

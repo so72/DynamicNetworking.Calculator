@@ -51,6 +51,7 @@ public class HTTPClassLoader extends ClassLoader {
             System.err.println("Unknown host: " + host);
         } catch (IOException ex) {
             System.err.println("IOException creating socket");
+            ex.printStackTrace();
         }
     }
 
@@ -76,6 +77,7 @@ public class HTTPClassLoader extends ClassLoader {
     }
     
     private void sendRequest(String className) {
+        System.out.println("Sending Request!");
         writer.print("GET /" + rootDirectory + className + " HTTP/1.0\r\n");
         writer.print(host + "\r\n");
         writer.print("\r\n");
@@ -84,13 +86,16 @@ public class HTTPClassLoader extends ClassLoader {
     private byte[] readResponse() {
         byte[] bytes = null;
         int size;
+        
         try {
+            System.out.println(reader.readLine());
             if (!reader.readLine().startsWith("HTTP/1.0 200")) {
+                System.out.println("Got here");
                 return null;
                 // should probably do something other than return null
             }
             //date
-            reader.readLine();
+            System.out.println(reader.readLine());
             //server
             reader.readLine();
             // should theoretically be the content length
