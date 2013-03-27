@@ -15,7 +15,9 @@ import javax.swing.*;
  * @author steffen
  */
 public class Calculator extends JFrame {
+    OperationsServer server = new OperationsServer();
     public Calculator() {   
+        
         initUI();
     }
 
@@ -57,9 +59,10 @@ public class Calculator extends JFrame {
        
        eq.addActionListener(new ActionListener() {
            public void actionPerformed(ActionEvent event) {
-                OperationsServer newOp = new OperationsServer();
+                
                 try {
-                    newOp.getOperation(oper.getText());
+                    Float servAnswer = server.getOperation(oper.getText()).compute(Float.parseFloat(op1.getText()),Float.parseFloat(op1.getText()) );
+                    answer.setText(servAnswer.toString());
                 } catch (UnknownOperationException ex) {
                     Logger.getLogger(Calculator.class.getName()).log(Level.SEVERE, null, ex);
                 }
