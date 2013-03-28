@@ -36,11 +36,11 @@ public class OperationsServer {
         
         //get the property value and save
         String rootDirectory = prop.getProperty("CLASS_ROOT_DIRECTORY");
-        System.out.println(rootDirectory);
+        //System.out.println(rootDirectory);
         String host = prop.getProperty("HOST");
-        System.out.println(host);
+        //System.out.println(host);
         String port = prop.getProperty("PORT");
-        System.out.println(port);
+        //System.out.println(port);
         
         if (rootDirectory == null ||
                 host == null ||
